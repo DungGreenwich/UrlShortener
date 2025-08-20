@@ -1,0 +1,51 @@
+﻿@model IEnumerable<URLShortener.Models.URL>
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+    }
+	table {
+		border-collapse: collapse;
+		width: 95%;
+		table-layout: fixed;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	th, td {
+		word-wrap: break-word;
+	}
+</style>
+
+<div class="container mt-5">
+	@{
+		ViewData["Title"] = "URLShortener";
+		await Html.RenderPartialAsync("Shorten");
+	}
+
+	<h1 class="display-4 text-center mb-4">Your Shortened URLs</h1>
+
+	<!-- Bordered table showing a list of original URL and shortened url -->
+	<table>
+		<thead class="table-light">
+			<tr>
+				<th>Original URL</th>
+				<th>Shortened URL</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.OriginalUrl</td>
+					<td> <a href="@ViewData["Host"]/@item.ShortCode">@ViewData["Host"]/@item.ShortCode </a></td>
+					<td>
+						@{
+							await Html.RenderPartialAsync("Delete", item);
+						}
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
